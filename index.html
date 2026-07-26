@@ -161,6 +161,7 @@
   .stat .v.pos{ color: var(--green); }
   .stat .v.neg{ color: var(--red); }
   .stat .v.gold{ color: var(--gold); }
+  .stat .note{ font-size: 0.65rem; color: var(--sub); margin-top: 3px; }
 
   .thanks{
     margin: 26px 0 6px;
@@ -276,7 +277,7 @@
   <div class="grid" id="statsGrid">
     <div class="stat"><div class="k">مبلغ دریافتی</div><div class="v mono" id="s_recv">-</div></div>
     <div class="stat"><div class="k">پرداختی</div><div class="v mono" id="s_paid">-</div></div>
-    <div class="stat"><div class="k">ارزش ذاتی</div><div class="v mono" id="s_intr">-</div></div>
+    <div class="stat"><div class="k">ارزش ذاتی</div><div class="v mono" id="s_intr">-</div><div class="note" id="s_intr_note"></div></div>
     <div class="stat"><div class="k">سود به ریال</div><div class="v mono" id="s_profitR">-</div></div>
     <div class="stat"><div class="k">سرمایه درگیر</div><div class="v mono" id="s_cap">-</div></div>
     <div class="stat"><div class="k">سود به درصد</div><div class="v mono" id="s_profitP">-</div></div>
@@ -355,7 +356,9 @@ function calc(){
 
   document.getElementById('s_recv').textContent = fmt(received,2);
   document.getElementById('s_paid').textContent = fmt(paid,2);
-  document.getElementById('s_intr').textContent = fmt(intrinsic,2);
+  const intrinsicShown = intrinsic > 0 ? intrinsic : 0;
+  document.getElementById('s_intr').textContent = fmt(intrinsicShown,2);
+  document.getElementById('s_intr_note').textContent = intrinsic > 0 ? '' : 'ارزش ذاتی ندارد';
   const profitREl = document.getElementById('s_profitR');
   profitREl.textContent = fmt(profitRial,2);
   profitREl.className = 'v mono ' + (profitRial >= 0 ? 'pos' : 'neg');
