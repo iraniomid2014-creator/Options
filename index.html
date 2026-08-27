@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#05080c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ماشین‌حساب آپشن">
+<title>ماشین‌حساب آپشن</title>
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="icon" href="icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-startup-image" href="splash-blank.png">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+<style>
+  :root {
+    --bg: #05080c;
+    --panel: rgba(10, 20, 26, 0.78);
+    --panel-2: rgba(14, 28, 36, 0.92);
+    --line: rgba(45, 212, 191, 0.14);
+    --line-strong: rgba(45, 212, 191, 0.28);
+    --neon: #2dd4bf;
+    --neon-soft: rgba(45, 212, 191, 0.14);
+    --neon-glow: 0 0 28px rgba(45, 212, 191, 0.28);
+    --green: #34d399;
+    --green-soft: rgba(52, 211, 153, 0.16);
+    --red: #f87171;
+    --red-soft: rgba(248, 113, 113, 0.14);
+    --text: #e8f5f3;
+    --sub: rgba(232, 245, 243, 0.52);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 16px; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; max-width: 100%; }
+  
+  body {
+    background: 
+      radial-gradient(ellipse 90% 50% at 50% -15%, rgba(45, 212, 191, 0.09) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 40% at 80% 100%, rgba(45, 212, 191, 0.04) 0%, transparent 50%),
+      var(--bg);
+    color: var(--text);
+    font-family: Vazirmatn, Tahoma, system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 14px 14px 36px;
+    transition: background 0.35s ease, color 0.3s ease;
+  }
+
+  .mono { font-family: 'Times New Roman', Times, serif; direction: ltr; unicode-bidi: plaintext; }
+  .wrap { max-width: 420px; margin: 0 auto; }
+
+  /* Header */
+  header { text-align: center; margin: 2px 0 10px; }
+  header .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--neon);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 7px;
+    opacity: 0.9;
+    text-shadow: 0 0 18px rgba(45, 212, 191, 0.35);
+  }
+  header h1 {
+    font-size: 1.28rem;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  header h1 span {
+    background: linear-gradient(135deg, var(--text) 20%, var(--neon) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  header h1 svg { flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.4)); }
+
+  /* Quickbar */
+  .quickbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin: 0 0 12px;
+    padding: 6px 10px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .qb-sep { width: 1px; height: 22px; background: var(--line); flex-shrink: 0; }
+  .qb-btn {
+    width: 34px; height: 34px; border-radius: 50%; padding: 0;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    color: var(--text);
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+    font-family: inherit;
+    transition: all 0.22s ease;
+  }
+  .qb-btn:hover, .qb-btn:active {
+    border-color: var(--neon);
+    color: var(--neon);
+    box-shadow: 0 0 14px rgba(45, 212, 191, 0.25);
+  }
+  .qb-btn.wide { width: auto; padding: 0 8px; border-radius: 14px; font-weight: 600; font-size: 0.78rem; }
+  .qb-btn.active {
+    border-color: var(--neon);
+    color: var(--neon);
+    background: var(--neon-soft);
+    box-shadow: 0 0 18px rgba(45, 212, 191, 0.35);
+    font-weight: 700;
+  }
+  .size-group { display: flex; gap: 5px; }
+  .color-dots { display: flex; gap: 7px; }
+  .color-dot {
+    width: 22px; height: 22px; border-radius: 50%; padding: 0; cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .color-dot:hover { transform: scale(1.15); }
+  .color-dot.active {
+    border-color: rgba(255,255,255,0.7);
+    box-shadow: 0 0 10px currentColor;
+  }
+
+  /* Verdict Hero */
+  .verdict {
+    border-radius: 18px;
+    padding: 16px 18px 15px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    margin-bottom: 14px;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .verdict::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(45,212,191,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .verdict.good {
+    background: linear-gradient(165deg, var(--green-soft) 0%, var(--panel) 55%);
+    border-color: rgba(52, 211, 153, 0.35);
+    box-shadow: 0 8px 40px rgba(52, 211, 153, 0.12), 0 0 0 1px rgba(52,211,153,0.08);
+  }
+  .verdict.bad {
+    background: linear-gradient(165deg, var(--red-soft) 0%, var(--panel) 55%);
+    border-color: rgba(248, 113, 113, 0.32);
+    box-shadow: 0 8px 40px rgba(248, 113, 113, 0.1);
+  }
+  .verdict.neutral .big { color: var(--sub); text-shadow: none; }
+  .verdict .row1 { display: flex; align-items: baseline; justify-content: space-between; position: relative; }
+  .verdict .label { font-size: 0.75rem; color: var(--sub); font-weight: 500; letter-spacing: 0.02em; }
+  .verdict .big {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 4px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    position: relative;
+  }
+  .verdict .big.pulse { animation: pulseNum 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes pulseNum {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+  .verdict.good .big {
+    color: var(--green);
+    text-shadow: 0 0 36px rgba(52, 211, 153, 0.5), 0 0 14px rgba(52, 211, 153, 0.3);
+  }
+  .verdict.bad .big {
+    color: var(--red);
+    text-shadow: 0 0 28px rgba(248, 113, 113, 0.4);
+  }
+  .verdict .sub-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 14px; font-size: 0.78rem; position: relative;
+  }
+  .verdict .sub-label { color: var(--sub); }
+  .verdict .sub-value { color: var(--sub); font-weight: 500; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 0.68rem;
+    color: var(--neon);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 14px 4px 8px;
+    display: flex; align-items: center; gap: 12px;
+    text-shadow: 0 0 14px rgba(45, 212, 191, 0.25);
+  }
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-strong), transparent 90%);
+  }
+
+  /* Input Card */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 3px;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.28);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .field {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    gap: 12px;
+    transition: background 0.2s ease;
+  }
+  .field:last-child { border-bottom: none; }
+  .field:active { background: rgba(45, 212, 191, 0.04); }
+  .field label {
+    font-size: 0.875rem;
+    color: var(--text);
+    font-weight: 500;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .field .unit {
+    font-size: 0.68rem;
+    color: var(--sub);
+    font-weight: 400;
+    margin-right: 4px;
+  }
+  .field input {
+    width: 130px;
+    flex: 0 0 auto;
+    text-align: left;
+    direction: ltr;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    padding: 8px 10px;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  }
+  .field input:focus {
+    border-color: var(--neon);
+    background: rgba(45, 212, 191, 0.08);
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15), 0 0 20px rgba(45, 212, 191, 0.2);
+  }
+  .field input::placeholder { color: var(--sub); opacity: 0.5; }
+  .field input::-webkit-outer-spin-button,
+  .field input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+  }
+  .field input { -moz-appearance: textfield; appearance: textfield; }
+
+  /* Stats Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    position: relative;
+  }
+  .grid.empty { opacity: 0.4; }
+  .empty-hint {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--sub);
+    margin: 4px 4px 10px;
+    display: none;
+  }
+  .empty-hint.show { display: block; }
+  .stat {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 11px 12px 10px;
+    min-width: 0;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .stat:active {
+    transform: translateY(-2px);
+    border-color: var(--line-strong);
+    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.1);
+  }
+  .stat .k {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text);
+    opacity: 0.75;
+    margin-bottom: 7px;
+    letter-spacing: 0.01em;
+  }
+  .stat .v {
+    font-size: 1.2rem;
+    font-weight: 400;
+    overflow-wrap: break-word;
+    letter-spacing: -0.01em;
+  }
+  .stat .v.pos { color: var(--green); text-shadow: 0 0 14px rgba(52, 211, 153, 0.25); }
+  .stat .v.neg { color: var(--red); }
+  .stat .v.gold { color: var(--neon); }
+  .stat .v.intr-pos { color: var(--green); opacity: 0.55; }
+  .stat .note { font-size: 0.64rem; color: var(--sub); margin-top: 5px; }
+  .stat .note.warn { color: var(--red); font-weight: 600; }
+
+  /* Thanks */
+  .thanks {
+    margin: 18px 0 8px;
+    padding: 18px 18px 15px;
+    text-align: center;
+    position: relative;
+    opacity: 0.82;
+    background: radial-gradient(120% 90% at 50% -10%, var(--neon-soft), transparent 65%);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: border-color 0.25s ease, opacity 0.25s ease;
+  }
+  .thanks:hover { opacity: 1; }
+  .thanks .corner {
+    position: absolute;
+    width: 18px; height: 18px;
+    border: 2px solid var(--neon);
+    opacity: 0.35;
+    transition: opacity 0.25s ease, box-shadow 0.25s ease;
+  }
+  .thanks:hover .corner { opacity: 0.6; box-shadow: 0 0 10px rgba(45,212,191,0.3); }
+  .thanks .corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 8px 0 0 0; }
+  .thanks .corner.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 8px 0 0; }
+  .thanks .corner.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 8px; }
+  .thanks .corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 8px 0; }
+  .thanks-text {
+    position: relative;
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 2;
+    color: var(--sub);
+  }
+  .thanks-text strong {
+    color: var(--neon);
+    font-size: 0.95rem;
+    text-shadow: 0 0 14px rgba(45, 212, 191, 0.3);
+    font-weight: 700;
+  }
+  .thanks-rule {
+    position: relative;
+    width: 32px; height: 2px;
+    margin: 12px auto 0;
+    background: var(--neon);
+    opacity: 0.4;
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--neon);
+  }
+
+  .foot-note {
+    font-size: 0.7rem;
+    color: var(--sub);
+    text-align: center;
+    margin-top: 22px;
+    line-height: 1.95;
+    opacity: 0.85;
+  }
+
+  ::selection { background: var(--neon-soft); }
+  header h1, .section-title, .field label, .sub-label, .sub-value, .thanks-text, .foot-note {
+    transition: color 0.25s ease;
+  }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .wrap { animation: riseIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+  /* Light theme overrides handled in JS */
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Option Calculator</div>
+    <h1><svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="2" width="18" height="20" rx="4" stroke="#2dd4bf" stroke-width="2"/><line x1="6.5" y1="6.5" x2="17.5" y2="6.5" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round"/><circle cx="7.5" cy="12" r="1.4" fill="#2dd4bf"/><circle cx="12" cy="12" r="1.4" fill="#2dd4bf"/><circle cx="16.5" cy="12" r="1.4" fill="#2dd4bf"/><circle cx="7.5" cy="16.7" r="1.4" fill="#2dd4bf"/><circle cx="12" cy="16.7" r="1.4" fill="#2dd4bf"/><circle cx="16.5" cy="16.7" r="1.4" fill="#2dd4bf"/></svg><span>ماشین‌حساب آپشن</span></h1>
+  </header>
+
+  <div class="quickbar">
+    <button class="qb-btn" id="themeToggle" title="تغییر تم">🌙</button>
+    <div class="qb-sep"></div>
+    <div class="color-dots" id="colorRow"></div>
+    <div class="qb-sep"></div>
+    <div class="size-group" id="sizeRow">
+      <button class="qb-btn wide" data-value="large" aria-label="نوشته بزرگ">A+</button>
+      <button class="qb-btn wide" data-value="medium" aria-label="نوشته متوسط">A</button>
+      <button class="qb-btn wide" data-value="small" aria-label="نوشته کوچک">A-</button>
+    </div>
+  </div>
+
+  <div id="verdict" class="verdict neutral">
+    <div class="row1">
+      <span class="label">سود ماهانه</span>
+    </div>
+    <div id="bigMonthly" class="big mono">0.00%</div>
+  </div>
+
+  <div class="section-title">ورودی‌ها</div>
+  <div class="card">
+    <div class="field">
+      <label>پرمیوم <span class="unit">(ریال)</span></label>
+      <input type="number" lang="en" dir="ltr" id="premium" placeholder="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label>قیمت سهم پایه <span class="unit">(ریال)</span></label>
+      <input type="number" lang="en" dir="ltr" id="base" placeholder="0" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label>قیمت اعمال <span class="unit">(ریال)</span></label>
+      <input type="number" lang="en" dir="ltr" id="strike" placeholder="0" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label>روز تا سررسید</label>
+      <input type="number" lang="en" dir="ltr" id="days" placeholder="0" min="0" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label>کارمزد <span class="unit">(٪)</span></label>
+      <input type="number" lang="en" dir="ltr" id="fee" placeholder="0" step="0.01" min="0" inputmode="decimal">
+    </div>
+  </div>
+
+  <div class="section-title">جزئیات محاسبه</div>
+  <div class="empty-hint show" id="emptyHint">برای مشاهده نتایج، مقادیر بالا را کامل کنید</div>
+  <div class="grid empty" id="statsGrid">
+    <div class="stat"><div class="k">مبلغ دریافتی</div><div class="v mono" id="s_recv">-</div></div>
+    <div class="stat"><div class="k">پرداختی</div><div class="v mono" id="s_paid">-</div></div>
+    <div class="stat"><div class="k">ارزش ذاتی</div><div class="v mono" id="s_intr">-</div><div class="note" id="s_intr_note"></div></div>
+    <div class="stat"><div class="k">سود به ریال</div><div class="v mono" id="s_profitR">-</div></div>
+    <div class="stat"><div class="k">سرمایه درگیر</div><div class="v mono" id="s_cap">-</div></div>
+    <div class="stat"><div class="k">سود به درصد</div><div class="v mono" id="s_profitP">-</div></div>
+    <div class="stat" style="grid-column: span 2;"><div class="k">بازده بدون اعمال</div><div class="v mono" id="s_noexec">-</div></div>
+  </div>
+
+  <div class="thanks">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+    <p class="thanks-text">با سپاس و قدردانی از<br><strong>استاد علی‌اکبر بهاری</strong><br>که راهنمای این مسیر بوده‌اند</p>
+    <div class="thanks-rule"></div>
+  </div>
+
+  <div class="foot-note">
+    فرمول‌ها عیناً از فایل اکسل شما برداشته شده‌اند.<br>
+    این ابزار توصیه سرمایه‌گذاری نیست و صرفاً برای محاسبه سریع طراحی شده.
+  </div>
+
+</div>
+
+<script>
+function fmt(n, decimals){
+  if(!isFinite(n)) return '—';
+  var neg = n < 0;
+  n = Math.abs(n);
+  var fixed = n.toFixed(decimals);
+  var parts = fixed.split('.');
+  var intPart = parts[0];
+  var withCommas = '';
+  for(var i = 0; i < intPart.length; i++){
+    if(i > 0 && (intPart.length - i) % 3 === 0){ withCommas += ','; }
+    withCommas += intPart[i];
+  }
+  var result = withCommas + (parts[1] ? '.' + parts[1] : '');
+  return (neg ? '-' : '') + result;
+}
+
+function toEnglishDigits(str){
+  const fa = '۰۱۲۳۴۵۶۷۸۹';
+  const ar = '٠١٢٣٤٥٦٧٨٩';
+  return str.replace(/[۰-۹٠-٩]/g, function(ch){
+    let idx = fa.indexOf(ch);
+    if(idx === -1) idx = ar.indexOf(ch);
+    return idx === -1 ? ch : String(idx);
+  });
+}
+
+const ids = ['premium','base','strike','days','fee'];
+const els = {};
+ids.forEach(id => els[id] = document.getElementById(id));
+
+ids.forEach(function(id){
+  els[id].addEventListener('input', function(){
+    const converted = toEnglishDigits(els[id].value);
+    if(converted !== els[id].value){ els[id].value = converted; }
+  });
+});
+
+function calc(){
+  const anyFilled = ids.some(id => els[id].value !== '');
+  document.getElementById('statsGrid').classList.toggle('empty', !anyFilled);
+  document.getElementById('emptyHint').classList.toggle('show', !anyFilled);
+
+  if(!anyFilled){
+    ['s_recv','s_paid','s_intr','s_profitR','s_cap','s_profitP','s_noexec'].forEach(function(id){
+      const el = document.getElementById(id);
+      el.textContent = '-';
+      el.className = 'v mono';
+    });
+    const noteEl = document.getElementById('s_intr_note');
+    noteEl.textContent = '';
+    noteEl.classList.remove('warn');
+    document.getElementById('verdict').className = 'verdict neutral';
+    document.getElementById('bigMonthly').textContent = '0.00%';
+    return;
+  }
+
+  const premium = parseFloat(els.premium.value) || 0;
+  const base = parseFloat(els.base.value) || 0;
+  const strike = parseFloat(els.strike.value) || 0;
+  const days = parseFloat(els.days.value) || 0;
+  const fee = parseFloat(els.fee.value) || 0;
+
+  const received = premium + strike;
+  const paid = base * (1 + fee/100);
+  const intrinsic = base - strike;
+  const profitRial = received - paid;
+  const capital = paid - premium;
+  const profitPct = capital !== 0 ? (profitRial / capital) : NaN;
+  const profitMonth = days !== 0 ? ((profitPct / days) * 30) : NaN;
+  const noExec = capital !== 0 ? (premium / capital) : NaN;
+
+  document.getElementById('s_recv').textContent = fmt(received,2);
+  document.getElementById('s_paid').textContent = fmt(paid,2);
+  const intrinsicShown = intrinsic > 0 ? intrinsic : 0;
+  const intrEl = document.getElementById('s_intr');
+  intrEl.textContent = fmt(intrinsicShown,2);
+  intrEl.className = 'v mono' + (intrinsic > 0 ? ' intr-pos' : '');
+  const noteEl = document.getElementById('s_intr_note');
+  noteEl.textContent = intrinsic > 0 ? '' : 'ارزش ذاتی ندارد';
+  noteEl.classList.toggle('warn', intrinsic <= 0);
+  const profitREl = document.getElementById('s_profitR');
+  profitREl.textContent = fmt(profitRial,2);
+  profitREl.className = 'v mono ' + (profitRial >= 0 ? 'pos' : 'neg');
+  document.getElementById('s_cap').textContent = fmt(capital,2);
+  const profitPEl = document.getElementById('s_profitP');
+  profitPEl.textContent = fmt(profitPct*100,2) + '%';
+  profitPEl.className = 'v mono ' + (profitPct >= 0 ? 'pos' : 'neg');
+  document.getElementById('s_noexec').textContent = fmt(noExec*100,2) + '%';
+
+  const verdictBox = document.getElementById('verdict');
+  const big = document.getElementById('bigMonthly');
+  // const sub = ... removed
+
+  const monthlyPctVal = profitMonth * 100;
+  big.textContent = (isFinite(monthlyPctVal) ? fmt(monthlyPctVal,2) : '—') + '%';
+
+  const isGood = isFinite(monthlyPctVal) && monthlyPctVal >= 0;
+  const hasData = isFinite(monthlyPctVal);
+  verdictBox.className = 'verdict ' + (!hasData ? 'neutral' : (isGood ? 'good' : 'bad'));
+  // sub row removed
+
+  big.classList.remove('pulse');
+  void big.offsetWidth;
+  big.classList.add('pulse');
+}
+
+ids.forEach(id => els[id].addEventListener('input', calc));
+
+const themes = {
+  dark: {
+    bg: '#05080c',
+    panel: 'rgba(10, 20, 26, 0.78)',
+    panel2: 'rgba(14, 28, 36, 0.92)',
+    line: 'rgba(45, 212, 191, 0.14)',
+    green: '#34d399',
+    greenSoft: 'rgba(52, 211, 153, 0.16)',
+    red: '#f87171',
+    redSoft: 'rgba(248, 113, 113, 0.14)',
+    text: '#e8f5f3'
+  },
+  light: {
+    bg: '#f0fdfa',
+    panel: 'rgba(255, 255, 255, 0.82)',
+    panel2: 'rgba(255, 255, 255, 0.95)',
+    line: 'rgba(13, 148, 136, 0.14)',
+    green: '#0d9488',
+    greenSoft: 'rgba(13, 148, 136, 0.12)',
+    red: '#e11d48',
+    redSoft: 'rgba(225, 29, 72, 0.1)',
+    text: '#134e4a'
+  }
+};
+const themeIcon = { dark: '🌙', light: '☀️' };
+let currentTheme = 'dark';
+let currentColor = 'neutral';
+
+function hexToRgba(hex, alpha){
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16);
+  const g = parseInt(h.substring(2,4),16);
+  const b = parseInt(h.substring(4,6),16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+}
+
+function applyTheme(name){
+  const t = themes[name];
+  if(!t) return;
+  currentTheme = name;
+  const root = document.documentElement.style;
+  root.setProperty('--bg', t.bg);
+  root.setProperty('--panel', t.panel);
+  root.setProperty('--panel-2', t.panel2);
+  root.setProperty('--line', t.line);
+  root.setProperty('--green', t.green);
+  root.setProperty('--green-soft', t.greenSoft);
+  root.setProperty('--red', t.red);
+  root.setProperty('--red-soft', t.redSoft);
+  try { localStorage.setItem('optioncalc-theme', name); } catch(e){}
+  document.getElementById('themeToggle').textContent = themeIcon[name];
+  applyTextColor(currentColor);
+
+  if(name === 'light'){
+    document.body.style.background = 'radial-gradient(ellipse 90% 50% at 50% -15%, rgba(45,212,191,0.12) 0%, transparent 55%), #f0fdfa';
+    root.setProperty('--neon', '#0d9488');
+    root.setProperty('--neon-soft', 'rgba(13,148,136,0.12)');
+    root.setProperty('--sub', 'rgba(19,78,74,0.55)');
+  } else {
+    document.body.style.background = '';
+    root.setProperty('--neon', currentColor === 'neutral' ? '#2dd4bf' : textColors[currentColor] || '#2dd4bf');
+    root.setProperty('--neon-soft', 'rgba(45,212,191,0.14)');
+  }
+}
+
+const textColors = {
+  neutral: null,
+  gold:   '#e8b84a',
+  ocean:  '#38bdf8',
+  violet: '#a78bfa',
+  teal:   '#2dd4bf'
+};
+
+function applyTextColor(name){
+  const hex = (name === 'neutral') ? themes[currentTheme].text : textColors[name];
+  if(!hex) return;
+  currentColor = name;
+  const root = document.documentElement.style;
+  root.setProperty('--text', hex);
+  root.setProperty('--sub', hexToRgba(hex, currentTheme === 'light' ? 0.55 : 0.52));
+  root.setProperty('--neon', hex);
+  root.setProperty('--neon-soft', hexToRgba(hex, 0.14));
+  root.setProperty('--gold', hex);
+  try { localStorage.setItem('optioncalc-color', name); } catch(e){}
+  document.querySelectorAll('#colorRow .color-dot').forEach(function(el){
+    el.classList.toggle('active', el.dataset.value === name);
+  });
+}
+
+const sizes = { small: 14.5, medium: 16, large: 17.5 };
+
+function applySize(name){
+  const px = sizes[name];
+  if(!px) return;
+  document.documentElement.style.fontSize = px + 'px';
+  try { localStorage.setItem('optioncalc-size', name); } catch(e){}
+  document.querySelectorAll('#sizeRow .qb-btn').forEach(function(el){
+    el.classList.toggle('active', el.dataset.value === name);
+  });
+}
+
+(function buildColorRow(){
+  const row = document.getElementById('colorRow');
+  Object.keys(textColors).forEach(function(name){
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'color-dot';
+    btn.dataset.value = name;
+    btn.style.background = (name === 'neutral')
+      ? 'linear-gradient(135deg, #e8f5f3 50%, #134e4a 50%)'
+      : textColors[name];
+    btn.setAttribute('aria-label', name);
+    btn.addEventListener('click', function(){ applyTextColor(name); });
+    row.appendChild(btn);
+  });
+})();
+
+document.getElementById('themeToggle').addEventListener('click', function(){
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+});
+
+document.querySelectorAll('#sizeRow .qb-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){ applySize(btn.dataset.value); });
+});
+
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem('optioncalc-theme') || 'dark'; } catch(e){}
+let savedColor = 'neutral';
+try { savedColor = localStorage.getItem('optioncalc-color') || 'neutral'; } catch(e){}
+let savedSize = 'medium';
+try { savedSize = localStorage.getItem('optioncalc-size') || 'medium'; } catch(e){}
+
+currentTheme = savedTheme;
+applyTheme(savedTheme);
+applyTextColor(savedColor);
+applySize(savedSize);
+calc();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
